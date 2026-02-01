@@ -34,4 +34,18 @@ prediction = clf.predict(final_features)[0]
 signal = "🚀 BUY" if prediction == 1 else "📉 SELL"
 print(f"SIGNAL: {signal}")
 
+
 # (Later we will add the Email/Telegram code here)
+import requests
+
+# Get secrets from GitHub
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
+
+message = f"🥈 *Silver Daily Signal*\n\nState: {('STABLE' if regime == 0 else 'VOLATILE')}\nSignal: {signal}"
+
+if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
+    requests.post(url, json=payload)
+    print("Notification sent to Telegram!")
