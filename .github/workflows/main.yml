@@ -11,9 +11,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5 # Using the latest 2026 version
         with:
           python-version: '3.9'
+          cache: 'pip' # <--- THIS IS THE MAGIC LINE
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run Bot
